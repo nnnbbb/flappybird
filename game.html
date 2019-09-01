@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+        canvas {
+            border: 1px black solid;
+        }
+    </style>
+
+</head>
+
+<body>
+    <canvas id="id-canvas" width="768" height="1015"></canvas>
+    <hr>
+    <input id=id-input-speed type="range" value="1">
+    <div class="">
+        <!-- <textarea id="id-text-log" rows="20" cols="50"></textarea> -->
+    </div>
+    <div class="">
+        <label>
+            <input class="gua-auto-slider" type="range" value="" data-value="config.player_speed">
+            玩家速度:<span class="gua-label"></span>
+        </label>
+    </div>
+    <div class="">
+        <label>
+            <input class="gua-auto-slider" type="range" value="" data-value="config.bullet_speed">
+            bullet速度:<span class="gua-label"></span>
+        </label>
+        <label>
+            <input class="gua-auto-slider" type="range" value="" max="20" data-value="config.fire_cooldown">
+            子弹冷却时间:<span class="gua-label"></span>
+        </label>
+        <label>
+            <input class="gua-auto-slider" type="range" value="" min="-10" max="10" data-value="config.cloud_speed">
+            cloud speed:<span class="gua-label"></span>
+        </label>
+    </div>
+    <script>
+        //选择器
+        var es = sel => document.querySelectorAll(sel)
+
+        var bindAll = function (sel, eventName, callback) {
+            var l = es(sel)
+            for (var i = 0; i < l.length; i++) {
+                var input = l[i]
+                input.addEventListener(eventName, function (event) {
+                    // 此处没有直接传callba
+                    // 而是开了一个匿名函数调用callback
+                    callback(event)
+                })
+            }
+        }
+
+        bindAll('.gua-auto-slider', 'input', function (event) {
+            var target = event.target
+            var bindVar = target.dataset.value
+            var v = target.value
+            // eval 执行js代码
+            log("(bindVar + '=' + v)", (bindVar + '=' + v))
+            log("bindVar", bindVar)
+            log("v", v)
+            eval(bindVar + '=' + v)
+            //Element.closest() 方法用来获取：匹配特定选择器
+            //且离当前元素最近的祖先元素（也可以是当前元素本身）
+            //如果匹配不到，则返回 null。
+            var label = target.closest('label').querySelector('.gua-label')
+            console.log(label);
+            label.innerText = v
+        })
+    </script>
+</body>
+
+
+<!-- gua game 相关文件 -->
+<script src='guagame/utils.js'></script>
+<script src='guagame/mouse.js'></script>
+<script src='guagame/gua_game.js'></script>
+<script src='guagame/gua_scene.js'></script>
+<script src='guagame/gua_image.js'></script>
+<script src='guagame/gua_particle_system.js'></script>
+<script src='guagame/gua_label.js'></script>
+<!-- 场景文件 -->
+<!-- <script src='scene/main/paddle.js'></script>
+<script src='scene/main/ball.js'></script>
+<script src='scene/main/block.js'></script>
+<script src='scene/main/Cloud.js'></script>
+<script src='scene/main/Bullet.js'></script>
+<script src='scene/main/Enemy.js'></script>
+<script src='scene/main/Player.js'></script> -->
+<!-- 结束和标题场景 -->
+<script src='scene/main/scene.js'></script>
+<script src='scene/end/scene_end.js'></script>
+<script src='scene/title/scene_title.js'></script>
+<script src='scene/title/pipe.js'></script>
+<script src='scene/title/ground.js'></script>
+
+
+<!-- 关卡数据 -->
+<!-- <script src='level.js'></script> -->
+<script src='Animation/GuaAnimation.js'></script>
+<script src='Animation/Bird.js'></script>
+<script src='main.js'></script>
+<!-- <script src='config.js'></script> -->
+
+</html>
