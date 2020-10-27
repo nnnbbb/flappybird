@@ -47,7 +47,6 @@ class GuaGame {
     }
     //
     registerAction(key, callback) {
-        log('registerAction key', key)
         this.actions[key] = callback
     }
     removeAction(key) {

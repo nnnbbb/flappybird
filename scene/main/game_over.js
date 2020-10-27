@@ -3,16 +3,18 @@ class GuaGameOver {
         this.game = game
         // this.over = false
         this.registerJumpRestart = false
-        this.firstRemoveAction = false
+        this.over = false
     }
     static new(...args) {
         let i = new this(...args)
         return i
     }
-    removeAction() {
-        if (!this.firstRemoveAction) {
+    once() {
+        if (!this.over) {
             this.game.removeAction(' ')
-            this.firstRemoveAction = true
+            let scene = SceneEnd.new(this.game, this.scene)
+            this.game.replaceScene(scene)
+            this.over = true
         }
     }
     stopRoll() {
@@ -36,11 +38,8 @@ class GuaGameOver {
     registerRestartAction() {
         let bird = this.game.scene.bird
 
-        this.removeAction()
+        this.once()
         if (bird.y == 830 && !this.registerJumpRestart) {
-            let scene = SceneEnd.new(this.game, this.scene)
-            this.game.replaceScene(scene)
-
             this.game.registerAction(' ', () => {
                 log('restart')
                 let s = MainScene.new(this.game)

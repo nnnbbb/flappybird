@@ -23,8 +23,8 @@ class MainScene extends GuaScene {
 
         // this.addElement(this.bird)
         this.game.canvas.addEventListener('mousedown', (event) => {
-            var x = event.offsetX
-            var y = event.offsetY
+            let x = event.offsetX
+            let y = event.offsetY
             log('this.game.actions', this.game.actions)
 
             // log('x, y', x, y)

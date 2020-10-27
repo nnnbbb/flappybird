@@ -19,7 +19,7 @@ class SceneEnd extends GuaScene {
         // }, 100)
         if (!this.firstReplaceScene) {
             setTimeout(() => {
-                log('replace')
+                log('replace scene')
                 this.game.replaceScene(this.mainScene)
             }, 100)
             this.firstReplaceScene = true

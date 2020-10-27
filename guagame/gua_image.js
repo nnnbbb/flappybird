@@ -19,8 +19,8 @@ class GuaImage {
         this.game.drawImage(this)
     }
     hasPoint(x, y) {
-        var xIn = x >= this.x && x <= this.x + this.w
-        var yIn = y >= this.y && y <= this.y + this.h
+        let xIn = x >= this.x && x <= this.x + this.w
+        let yIn = y >= this.y && y <= this.y + this.h
         return xIn && yIn
     }
 
