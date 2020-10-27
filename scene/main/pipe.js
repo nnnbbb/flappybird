@@ -1,13 +1,13 @@
 class Pipes {
     constructor(game) {
         this.alive = true
-
+        this.roll = true
         this.game = game
         this.pipes = []
         // 一对管子之间的距离
         this.pipesWidth = 380
         // 上下两根管子的间距
-        this.pipesHeight = 200
+        this.pipesHeight = 300
 
         this.setup()
     }
@@ -16,7 +16,7 @@ class Pipes {
             let p1 = GuaImage.new(this.game, 'pipe')
             let p2 = GuaImage.new(this.game, 'pipe')
 
-            p1.x = i * this.pipesWidth + 1100
+            p1.x = i * this.pipesWidth + 1000
             p2.x = p1.x
 
             p1.flipY = true
@@ -34,19 +34,19 @@ class Pipes {
         return new this(game)
     }
     update() {
-        for (const p of this.pipes) {
-            p.x -= 5
+        if (this.roll) {
+            for (const p of this.pipes) {
+                p.x -= 5
 
-            if (p.x < -150) {
-                p.x = this.pipesWidth * 3
+                if (p.x < -150) {
+                    p.x = this.pipesWidth * 3
+                }
             }
         }
     }
     draw() {
-
         let context = this.game.context
         for (const p of this.pipes) {
-
             context.save()
             let w2 = p.w / 2
             let h2 = p.h / 2
@@ -55,13 +55,11 @@ class Pipes {
             let scaleY = p.flipY ? -1 : 1
             context.scale(scaleX, scaleY)
 
-            context.rotate(p.angle * Math.PI / 180)
             context.translate(-w2, -h2)
             context.drawImage(p.texture, 0, 0)
             // log("this.texture", this.texture)
 
             context.restore()
-
         }
     }
 }

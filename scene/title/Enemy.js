@@ -1,8 +1,8 @@
 
 class Enemy extends GuaImage {
     constructor(game) {
-        var type = randomBetween(0, 4)
-        var name = 'enemy' + type
+        let type = randomBetween(0, 4)
+        let name = 'enemy' + type
         super(game, name)
         this.setup()
     }
@@ -20,8 +20,8 @@ class Enemy extends GuaImage {
     }
     collide() {
         for (let i = 0; i < this.scene.Bullet.length; i++) {
-            var a = this
-            var b = this.scene.Bullet[i]
+            let a = this
+            let b = this.scene.Bullet[i]
             if (aInb(a.x, b.x, b.x + b.w) || aInb(b.x, a.x, a.x + a.w)) {
                 if (aInb(a.y, b.y, b.y + b.h) || aInb(b.y, a.y, a.y + a.h)) {
                     this.kill()
@@ -33,7 +33,7 @@ class Enemy extends GuaImage {
     }
     kill() {
         log("this.scene.enemies", this.scene.enemies)
-        var i = this.scene.enemies.indexOf(this)
+        let i = this.scene.enemies.indexOf(this)
         this.alive = false
         this.scene.enemies.splice(i, 1)
     }

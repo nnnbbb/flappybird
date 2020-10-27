@@ -1,21 +1,23 @@
 class Ground extends GuaImage {
     constructor(game) {
-        super(game, "ground")
+        super(game, 'ground')
         this.skipCount = 6
         this.grounds = []
         this.setup()
-        window.size = 790
+        this.roll = true
+        // window.size = 770
+        window.size = config.ground
     }
     setup() {
-        for (let i = 0; i < 50; i++) {
-            var g = GuaImage.new(this.game, 'ground')
+        for (let i = 0; i < 45; i++) {
+            let g = GuaImage.new(this.game, 'ground')
             g.x = i * 37
             g.y = 890
             this.grounds.push(g)
         }
     }
     static new(game) {
-        var i = new this(game)
+        let i = new this(game)
         return i
     }
     draw() {
@@ -24,9 +26,12 @@ class Ground extends GuaImage {
         }
     }
     update() {
-        this.groundsUpdate()
+        if (this.roll) {
+            this.updateGrounds()
+        }
+
         // let n = 5
-        // var offset = -n
+        // let offset = -n
         // this.skipCount--
 
         // for (const g of this.grounds) {
@@ -38,14 +43,13 @@ class Ground extends GuaImage {
         //     g.x += offset
         // }
     }
-    groundsUpdate() {
+    updateGrounds() {
         let offset = -5
         for (const g of this.grounds) {
             if (g.x < -37) {
-                g.x = window.size
+                g.x = config.ground
             }
             g.x += offset
         }
-
     }
 }

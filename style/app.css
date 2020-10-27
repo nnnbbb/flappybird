@@ -1,0 +1,7 @@
+@font-face {
+  font-family: flappy bird;
+  src        : url(/fonts/FB.eot);
+  src        : url(/fonts/FB.eot?#iefix) format("embedded-opentype"), url(/fonts/FB.woff) format("woff"), url(/fonts/FB.ttf) format("truetype");
+  font-weight: 400;
+  font-style : normal
+}

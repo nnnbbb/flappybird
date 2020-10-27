@@ -4,39 +4,35 @@ class GuaScene {
         this.debugModeEnable = false
         this.elements = []
     }
-    static new(game) {
-        var i = new this(game)
+    static new(...args) {
+        let i = new this(...args)
         return i
     }
-    addElement(img) {
-        img.scene = this
-        this.elements.push(img)
+    addElement(element) {
+        element.scene = this
+        this.elements.push(element)
     }
-    delElement(img) {
-        this.elements = this.elements.filter(e => e != img)
+    removeElement(element) {
+        this.elements = this.elements.filter((e) => e != element)
     }
     draw() {
-        for (var i = 0; i < this.elements.length; i++) {
-            var e = this.elements[i]
+        for (let i = 0; i < this.elements.length; i++) {
+            let e = this.elements[i]
             // this.game.drawImage(e)
             // elements是guaImage
-            // if(e.alive){
             e.draw()
-            // }
         }
     }
     update() {
         if (this.debugModeEnable) {
-            for (var i = 0; i < this.elemements.length; i++) {
-                var e = this.elemements[i]
+            for (let i = 0; i < this.elemements.length; i++) {
+                let e = this.elemements[i]
                 e.debug && e.debug()
             }
         }
-        for (var i = 0; i < this.elements.length; i++) {
-            var e = this.elements[i]
-            if (e.alive) {
-                e.update()
-            }
+        for (let i = 0; i < this.elements.length; i++) {
+            let e = this.elements[i]
+            e.update()
         }
         // log("Scene", this)
     }

@@ -5,4 +5,5 @@ const config = {
     bullet_speed: 5,
     fire_cooldown: 9,
     start: false,
+    ground: 790,
 }

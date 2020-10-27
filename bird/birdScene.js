@@ -5,8 +5,8 @@ class birdScene extends GuaScene {
         
     }
     setupInputs() {
-        var g = this.game
-        var self = this
+        let g = this.game
+        let self = this
         g.registerAction('a', function (keyStatus) {
             self.w.move(-2, keyStatus)
         })

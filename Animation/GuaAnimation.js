@@ -6,18 +6,23 @@ class GuaAnimation {
         this.y = 150
 
         this.actions = {
-            "ldie": [],
+            fly: [],
+            stand: [],
         }
 
         for (let i = 1; i < 4; i++) {
             let name = `bird${i}`
             let b = game.textureByName(name)
-            this.actions["ldie"].push(b)
+            this.actions['fly'].push(b)
         }
-        this.actionName = "ldie"
+        let name = `bird${2}`
+        let b = game.textureByName(name)
+        this.actions['stand'].push(b)
+
+        this.actionName = 'stand'
         this.frames = this.actions[this.actionName]
 
-        this.texture = this.frames[1]
+        this.texture = this.frames[0]
         this.w = this.texture.width
         this.h = this.texture.height
 
@@ -27,7 +32,7 @@ class GuaAnimation {
         this.vy = 0
         this.angle = 0
         this.count = 20
-        this.start = true
+        this.roll = true
         this.die = true
     }
     static new(game) {
@@ -40,9 +45,12 @@ class GuaAnimation {
             let b = pipes[i]
             if (aInb(a.x, b.x, b.x + b.w) || aInb(b.x, a.x, a.x + a.w)) {
                 if (aInb(a.y, b.y, b.y + b.h) || aInb(b.y, a.y, a.y + a.h)) {
-                    this.die = false
+                    return true
                 }
             }
+        }
+        if (this.y > 829) {
+            return true
         }
     }
     survival() {
@@ -52,21 +60,20 @@ class GuaAnimation {
         return false
     }
     update() {
+        // log('this.y', this.y)
         this.gravity()
         this.frame()
         // 最大下落高度
-        let h = 843
+        let h = 830
         if (this.y > h) {
             this.y = h
             this.die = false
         }
-        this.collide()
-
     }
     gravity() {
         this.count--
 
-        if (this.start) {
+        if (this.roll) {
             // 鸟的角度偏移
             if (this.angle < 90 && this.count < 0) {
                 this.angle += 5
@@ -99,7 +106,7 @@ class GuaAnimation {
         if (this.flipX) {
             context.scale(-1, 1)
         }
-        context.rotate(this.angle * Math.PI / 180)
+        context.rotate((this.angle * Math.PI) / 180)
         context.translate(-w2, -h2)
         context.drawImage(this.texture, 0, 0)
         context.restore()
@@ -115,7 +122,7 @@ class GuaAnimation {
         this.x += x
     }
 
-    changeAnimation(name) {
+    changeAction(name) {
         // if (name == "run") {
         //     this.frames = this.actions["run"]
         // } else if (name == "ldie") {

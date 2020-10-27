@@ -1,10 +1,10 @@
-const config = {
-    player_speed: 8,
-    cloud_speed: 2,
-    enemy_speed: 5,
-    bullet_speed: 5,
-    fire_cooldown: 9,
-}
+// const config = {
+//     player_speed: 8,
+//     cloud_speed: 2,
+//     enemy_speed: 5,
+//     bullet_speed: 5,
+//     fire_cooldown: 9,
+// }
 
 
 class Scene extends GuaScene {
@@ -28,13 +28,13 @@ class Scene extends GuaScene {
         this.addEnemies()
         this.addElement(this.player)
         // add particles
-        var ps = GuaParticleSystem.new(this.game)
+        let ps = GuaParticleSystem.new(this.game)
         this.addElement(ps)
     }
     addEnemies() {
-        var es = []
-        for (var i = 0; i < this.numberOfEnemies; i++) {
-            var e = Enemy.new(this.game)
+        let es = []
+        for (let i = 0; i < this.numberOfEnemies; i++) {
+            let e = Enemy.new(this.game)
             es.push(e)
             this.addElement(e)
         }
@@ -45,8 +45,8 @@ class Scene extends GuaScene {
         this.Bullet.push(b)
     }
     setupInputs() {
-        var g = this.game
-        var s = this
+        let g = this.game
+        let s = this
         g.registerAction('a', function () {
             s.player.moveLeft()
         })

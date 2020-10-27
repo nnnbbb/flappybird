@@ -11,15 +11,16 @@ class GuaGame {
 
         this.context = this.canvas.getContext('2d')
         // this.context.font = '50px serif';
-        this.context.font = '50px Arial';
+        this.context.font = "55px 'flappy bird'"
 
         // events
-        var self = this
-        window.addEventListener('keydown', event => {
-            this.keydowns[event.key] = "down"
+        let self = this
+        window.addEventListener('keydown', (event) => {
+            // log('event.key', event)
+            this.keydowns[event.key] = 'down'
         })
         window.addEventListener('keyup', function (event) {
-            self.keydowns[event.key] = "up"
+            self.keydowns[event.key] = 'up'
         })
         this.init()
     }
@@ -35,6 +36,9 @@ class GuaGame {
     }
     // update
     update() {
+        if (window.paused) {
+            return
+        }
         this.scene.update()
     }
     // draw
@@ -43,24 +47,26 @@ class GuaGame {
     }
     //
     registerAction(key, callback) {
+        log('registerAction key', key)
         this.actions[key] = callback
     }
     removeAction(key) {
         delete this.actions[key]
     }
     events() {
-        var g = this
-        var actions = Object.keys(g.actions)
-        for (var i = 0; i < actions.length; i++) {
+        let g = this
+        let actions = Object.keys(g.actions)
+        for (let i = 0; i < actions.length; i++) {
             // console.log("actions", actions)
-            var key = actions[i]
-            var status = g.keydowns[key]
-            // console.log("status", status)
-
-            if (status == "down") {
-                g.actions[key]("down")
-            } else if (status == "up") {
-                g.actions[key]("up")
+            let key = actions[i]
+            let status = g.keydowns[key]
+            // log("status", status)
+            // log('key', key)
+            if (status == 'down') {
+                g.actions[key]('down')
+                // delete g.actions[key]
+            } else if (status == 'up') {
+                g.actions[key]('up')
                 // 删除这个key 的状态
                 g.keydowns[key] = null
             }
@@ -69,37 +75,35 @@ class GuaGame {
             //     g.actions[key]()
             // }
         }
-
     }
     runloop() {
-        var g = this
+        let g = this
 
         // events
         g.events()
-
-        // update
-        g.update()
 
         // clear
         g.context.clearRect(0, 0, g.canvas.width, g.canvas.height)
 
         // draw
         g.draw()
-        
+
+        // update
+        g.update()
         // next run loop
         setTimeout(function () {
             g.runloop()
         }, 1000 / window.fps)
     }
     textureByName(name) {
-        var g = this
+        let g = this
         // log('image by name', g.images)
-        var img = g.images[name]
+        let img = g.images[name]
 
         return img
     }
     runWithScene(scene) {
-        var g = this
+        let g = this
         // let s = this.sceneList[scene]
         // console.log("s", s)
         g.scene = scene
@@ -121,7 +125,7 @@ class GuaGame {
     }
 
     init() {
-        var g = this
+        let g = this
         // 预先加载所有场景
         // let sceneTitle = SceneTitle.new(g)
         // let sceneEnd = SceneEnd.new(g)
@@ -129,12 +133,12 @@ class GuaGame {
         // this.sceneList["SceneTitle"] = sceneTitle
         // this.sceneList["SceneEnd"] = sceneEnd
 
-        var loads = []
+        let loads = []
         // 预先载入所有图片
-        var names = Object.keys(g.images)
-        for (var i = 0; i < names.length; i++) {
+        let names = Object.keys(g.images)
+        for (let i = 0; i < names.length; i++) {
             let name = names[i]
-            var path = g.images[name]
+            let path = g.images[name]
             let img = new Image()
             img.src = path
             img.onload = function () {
