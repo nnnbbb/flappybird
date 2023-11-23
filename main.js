@@ -16,11 +16,11 @@ let enableDebugMode = function (game, enable) {
         let input = event.target
         window.fps = Number(input.value)
     })
-    // game.canvas.addEventListener('click', function (event) {
-    //     let x = event.offsetX
-    //     let y = event.offsetY
-    //     log('x', x, 'y', y)
-    // })
+    game.canvas.addEventListener('click', function (event) {
+        let x = event.offsetX
+        let y = event.offsetY
+        log('x', x, 'y', y)
+    })
 }
 
 let __main = function () {

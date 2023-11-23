@@ -1,5 +1,3 @@
-let e = sel => document.querySelector(sel)
-
 let log = console.log.bind(console)
 
 let imageFromPath = function(path) {

@@ -2,7 +2,7 @@ class MainScene extends GuaScene {
     constructor(game) {
         super(game)
         this.setup()
-        // this.registerAction()
+        this.registerAction()
     }
     setup() {
         this.bg = GuaImage.new(this.game, 'bg')
@@ -30,24 +30,24 @@ class MainScene extends GuaScene {
             // log('x, y', x, y)
         })
     }
-    // registerAction() {
-    //     let m = 4
-    //     let bird = this.bird
-    //     this.game.registerAction('a', (status) => {
-    //         bird.move(-m)
-    //     })
-    //     this.game.registerAction('d', (status) => {
-    //         bird.move(m)
-    //     })
-    //     this.game.registerAction(' ', (status) => {
-    //         bird.jump()
-    //     })
-    //     window.addEventListener('click', (status) => {
-    //         if (!this.gameOver.over) {
-    //             bird.jump()
-    //         }
-    //     })
-    // }
+    registerAction() {
+        let m = 4
+        let bird = this.bird
+        this.game.registerAction('a', (status) => {
+            bird.move(-m)
+        })
+        this.game.registerAction('d', (status) => {
+            bird.move(m)
+        })
+        // this.game.registerAction(' ', (status) => {
+        //     bird.jump()
+        // })
+        // window.addEventListener('click', (status) => {
+        //     if (!this.gameOver.over) {
+        //         bird.jump()
+        //     }
+        // })
+    }
     update() {
         super.update()
         this.addScore()

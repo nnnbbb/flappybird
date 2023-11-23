@@ -12,6 +12,7 @@ class GuaGameOver {
     once() {
         if (!this.over) {
             this.game.removeAction(' ')
+            this.game.removeAction('mouse')
             let scene = SceneEnd.new(this.game, this.scene)
             this.game.replaceScene(scene)
             this.over = true
@@ -23,7 +24,7 @@ class GuaGameOver {
         pipes.roll = false
         ground.roll = false
     }
-    GameOver() {
+    gameOver() {
         let bird = this.game.scene.bird
         if (bird.collide()) {
             // window.paused = true
@@ -75,7 +76,7 @@ class GuaGameOver {
         this.game.scene.addElement(this.share)
     }
     update() {
-        this.GameOver()
+        this.gameOver()
     }
     draw() {}
 }

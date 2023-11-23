@@ -22,6 +22,13 @@ class GuaGame {
         window.addEventListener('keyup', function (event) {
             self.keydowns[event.key] = 'up'
         })
+        window.addEventListener('mousedown', (event) => {
+          this.keydowns['mouse'] = 'down'
+        })
+        window.addEventListener('mouseup', (event) => {
+          this.keydowns['mouse'] = 'up'
+        })
+
         this.init()
     }
 
@@ -31,7 +38,6 @@ class GuaGame {
     }
     drawImage(img) {
         // img 是一個 GuaImage
-        // console.log("img", img)
         this.context.drawImage(img.texture, img.x, img.y)
     }
     // update

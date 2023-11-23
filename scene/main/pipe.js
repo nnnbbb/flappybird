@@ -7,7 +7,7 @@ class Pipes {
         // 一对管子之间的距离
         this.pipesWidth = 380
         // 上下两根管子的间距
-        this.pipesHeight = 300
+        this.pipesHeight = 250
 
         this.setup()
     }
@@ -27,7 +27,7 @@ class Pipes {
         }
     }
     resetPipesPosition(p1, p2) {
-        p1.y = randomBetween(-600, -300)
+        p1.y = randomBetween(-700, -600)
         p2.y = p1.y + p1.h + this.pipesHeight
     }
     static new(game) {
@@ -36,7 +36,7 @@ class Pipes {
     update() {
         if (this.roll) {
             for (const p of this.pipes) {
-                p.x -= 5
+                p.x -= 4
 
                 if (p.x < -150) {
                     p.x = this.pipesWidth * 3

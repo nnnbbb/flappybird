@@ -5,14 +5,13 @@ class Ground extends GuaImage {
         this.grounds = []
         this.setup()
         this.roll = true
-        // window.size = 770
-        window.size = config.ground
+        this.size = config.ground.value
     }
     setup() {
         for (let i = 0; i < 45; i++) {
             let g = GuaImage.new(this.game, 'ground')
             g.x = i * 37
-            g.y = 890
+            g.y = 700
             this.grounds.push(g)
         }
     }
@@ -44,10 +43,10 @@ class Ground extends GuaImage {
         // }
     }
     updateGrounds() {
-        let offset = -5
+        let offset = -4
         for (const g of this.grounds) {
-            if (g.x < -37) {
-                g.x = config.ground
+            if (g.x <= -37) {
+              g.x = config.ground.value
             }
             g.x += offset
         }

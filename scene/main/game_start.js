@@ -2,7 +2,7 @@ class GuaGameStart {
     constructor(game, mainScene) {
         this.game = game
         this.mainScene = mainScene
-        this.firstStart = false
+        this.firstStart = true
         this.setup()
     }
     setup() {
@@ -11,16 +11,18 @@ class GuaGameStart {
         bird.roll = false
 
         // start
-        this.game.registerAction(' ', (status) => {
-            if (!this.firstStart) {
-                bird.roll = true
-                bird.changeAction('fly')
-                this.mainScene.pipes.roll = true
-                this.firstStart = true
-            } else {
-                bird.jump()
-            }
-        })
+      let start = (status) => {
+        if (this.firstStart) {
+          bird.roll = true
+          bird.changeAction('fly')
+          this.mainScene.pipes.roll = true
+          this.firstStart = false
+        } else {
+          bird.jump()
+        }
+      }
+      this.game.registerAction(' ', start)
+      this.game.registerAction('mouse', start)
     }
     static new(...args) {
         let i = new this(...args)

@@ -2,8 +2,8 @@ class GuaAnimation {
     constructor(game) {
         this.game = game
         this.alive = true
-        this.x = 150
-        this.y = 150
+        this.x = 152
+        this.y = 152
 
         this.actions = {
             fly: [],
@@ -49,7 +49,7 @@ class GuaAnimation {
                 }
             }
         }
-        if (this.y > 829) {
+      if (this.y > 649) {
             return true
         }
     }
@@ -64,7 +64,7 @@ class GuaAnimation {
         this.gravity()
         this.frame()
         // 最大下落高度
-        let h = 830
+        let h = 650
         if (this.y > h) {
             this.y = h
             this.die = false

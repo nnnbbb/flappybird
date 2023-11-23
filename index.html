@@ -1,57 +1,78 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+        <style media="screen">
+            canvas {
+                border: 1px black solid;
+            }
+        </style>
+        <script src="guagame/utils.js"></script>
+        <link rel="stylesheet" href="/style/app.css" />
+    </head>
 
-<head>
-    <meta charset="utf-8">
-    <title></title>
-    <style media="screen">
-        canvas {
-            border: 1px black solid;
-        }
-    </style>
-    <script src='guagame/utils.js'></script>
-    <link rel="stylesheet" href="/style/app.css">
-</head>
+    <body>
+        <canvas id="id-canvas" width="768" height="800"></canvas>
+        <hr />
+        <input id="id-input-speed" type="range" value="1" />
+        <div class="gua-controls">
+            <!-- <textarea id="id-text-log" rows="20" cols="50"></textarea> -->
+        </div>
+    </body>
+    <script src="config.js"></script>
 
-<body>
-    <canvas id="id-canvas" width="768" height="1000"></canvas>
-    <hr>
-    <input id=id-input-speed type="range" value="1">
-    <div class="">
-        <!-- <textarea id="id-text-log" rows="20" cols="50"></textarea> -->
-    </div>
-    <div class="">
-        <label>
-            <input class="gua-auto-slider" type="range" value="" data-value="config.player_speed">
-            玩家速度:<span class="gua-label"></span>
-        </label>
-    </div>
-    <div class="">
-        <label>
-            <input class="gua-auto-slider" type="range" value="" data-value="config.bullet_speed">
-            bullet速度:<span class="gua-label"></span>
-        </label>
-        <label>
-            <input class="gua-auto-slider" type="range" value="" max="20" data-value="config.fire_cooldown">
-            子弹冷却时间:<span class="gua-label"></span>
-        </label>
-        <label>
-            <input class="gua-auto-slider" type="range" value="" min="-10" max="10" data-value="config.cloud_speed">
-            cloud speed:<span class="gua-label"></span>
-        </label>
-        <br>
-        <label>
-            ground<input class="gua-auto" type="input" value="790" data-value="config.ground">
-            <span class="gua-label"></span>
-        </label>
-        <button class="add">+</button>
-        <button class="sub">-</button>
+    <!-- gua game 相关文件 -->
+    <script src="guagame/mouse.js"></script>
+    <script src="guagame/gua_game.js"></script>
+    <script src="guagame/gua_text.js"></script>
+    <script src="guagame/gua_scene.js"></script>
+    <script src="guagame/gua_image.js"></script>
+    <script src="guagame/gua_particle_system.js"></script>
+    <script src="guagame/gua_label.js"></script>
+    <!-- 场景文件 -->
+    <!-- 结束和标题场景 -->
+    <script src="scene/title/scene.js"></script>
+    <script src="scene/end/scene_end.js"></script>
+    <script src="scene/main/main_scene.js"></script>
+    <script src="scene/main/pipe.js"></script>
+    <script src="scene/main/ground.js"></script>
+    <script src="scene/main/game_over.js"></script>
+    <script src="scene/main/game_start.js"></script>
 
-    </div>
+    <!-- 关卡数据 -->
+    <!-- <script src='level.js'></script> -->
+    <script src="Animation/GuaAnimation.js"></script>
+    <script src="Animation/Bird.js"></script>
+    <script src="main.js"></script>
     <script>
-        //选择器
-        let es = sel => document.querySelectorAll(sel)
-
+        let e = (sel) => document.querySelector(sel)
+        let es = (sel) => document.querySelectorAll(sel)
+        let templateControl = function (key, item) {
+            let t = `<div class="">
+                      <label>
+                        ${item.label}:<span class="gua-label">${item.value ?? 0}</span>
+                        <input class="gua-auto-slider" 
+                        type="range" 
+                        value="${item.value ?? 0}"
+                        min="${item.min ?? -50}"
+                        max="${item.max ?? 100}"
+                        data-value="config.${key}" />
+                      </label>
+                    </div>`
+            return t
+        }
+        let insertControls = function () {
+            let div = e('.gua-controls')
+            for (const key in config) {
+                let item = config[key]
+                console.log('item', item)
+                console.log('key', key)
+                let html = templateControl(key, item)
+                console.log('html', html)
+                div.insertAdjacentHTML('beforeend', html)
+            }
+        }
         let bindAll = function (sel, eventName, callback) {
             let l = es(sel)
             for (let i = 0; i < l.length; i++) {
@@ -64,82 +85,45 @@
             }
         }
         let bindEvents = function () {
-            let element = e('.gua-auto')
-            e(".add").addEventListener("click", function () {
-                // element.value = Number(element.value) + 1
-                eval(("config.ground" + "+=" + "Number(1)"))
+            bindAll('.gua-auto-slider', 'input', function (event) {
+                let target = event.target
+                let bindVar = target.dataset.value
+                let v = target.value
+                // eval 执行js代码
+                eval(bindVar + '.value=' + v)
+                // Element.closest() 方法用来获取：匹配特定选择器
+                // 且离当前元素最近的祖先元素（也可以是当前元素本身）
+                // 如果匹配不到，则返回 null。
+                let label = target.closest('label').querySelector('.gua-label')
+                console.log(label, config.ground)
+                label.innerText = v
             })
         }
-        bindEvents()
 
+        let __bind = function () {
+            insertControls()
+            bindEvents()
+        }
+        __bind()
+        // //选择器
 
-        bindAll('.gua-auto', 'change', function (event) {
-            let target = event.target
-            let bindVar = target.dataset.value
-            let v = target.value
-            // eval 执行js代码
-            log("(bindVar + '=' + v)", (bindVar + '=' + v))
-            log("bindVar", bindVar)
-            log("v", v)
-            eval(bindVar + '=' + v)
-            //Element.closest() 方法用来获取：匹配特定选择器
-            //且离当前元素最近的祖先元素（也可以是当前元素本身）
-            //如果匹配不到，则返回 null。
-            let label = target.closest('label').querySelector('.gua-label')
-            console.log(label)
-            label.innerText = v
-        })
-        bindAll('.gua-auto-slider', 'input', function (event) {
-            let target = event.target
-            let bindVar = target.dataset.value
-            let v = target.value
-            // eval 执行js代码
-            log("(bindVar + '=' + v)", (bindVar + '=' + v))
-            log("bindVar", bindVar)
-            log("v", v)
-            eval(bindVar + '=' + v)
-            //Element.closest() 方法用来获取：匹配特定选择器
-            //且离当前元素最近的祖先元素（也可以是当前元素本身）
-            //如果匹配不到，则返回 null。
-            let label = target.closest('label').querySelector('.gua-label')
-            console.log(label)
-            label.innerText = v
-        })
+        // bindEvents()
+
+        // bindAll('.gua-auto', 'change', function (event) {
+        //     let target = event.target
+        //     let bindVar = target.dataset.value
+        //     let v = target.value
+        //     // eval 执行js代码
+        //     log("(bindVar + '=' + v)", (bindVar + '=' + v))
+        //     log("bindVar", bindVar)
+        //     log("v", v)
+        //     eval(bindVar + '=' + v)
+        //     //Element.closest() 方法用来获取：匹配特定选择器
+        //     //且离当前元素最近的祖先元素（也可以是当前元素本身）
+        //     //如果匹配不到，则返回 null。
+        //     let label = target.closest('label').querySelector('.gua-label')
+        //     console.log(label)
+        //     label.innerText = v
+        // })
     </script>
-</body>
-<script src='config.js'></script>
-
-
-<!-- gua game 相关文件 -->
-<script src='guagame/mouse.js'></script>
-<script src='guagame/gua_game.js'></script>
-<script src='guagame/gua_text.js'></script>
-<script src='guagame/gua_scene.js'></script>
-<script src='guagame/gua_image.js'></script>
-<script src='guagame/gua_particle_system.js'></script>
-<script src='guagame/gua_label.js'></script>
-<!-- 场景文件 -->
-<!-- <script src='scene/main/paddle.js'></script>
-<script src='scene/main/ball.js'></script>
-<script src='scene/main/block.js'></script>
-<script src='scene/main/Cloud.js'></script>
-<script src='scene/main/Bullet.js'></script>
-<script src='scene/main/Enemy.js'></script>
-<script src='scene/main/Player.js'></script> -->
-<!-- 结束和标题场景 -->
-<script src='scene/title/scene.js'></script>
-<script src='scene/end/scene_end.js'></script>
-<script src='scene/main/main_scene.js'></script>
-<script src='scene/main/pipe.js'></script>
-<script src='scene/main/ground.js'></script>
-<script src='scene/main/game_over.js'></script>
-<script src='scene/main/game_start.js'></script>
-
-
-<!-- 关卡数据 -->
-<!-- <script src='level.js'></script> -->
-<script src='Animation/GuaAnimation.js'></script>
-<script src='Animation/Bird.js'></script>
-<script src='main.js'></script>
-
 </html>
